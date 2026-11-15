@@ -3,7 +3,8 @@
 Status updated 2026-11-16: **official FIVES archive verified and audited; data
 policy and development split frozen; three controlled seed-42 Kaggle
 validation runs completed under the declared early-stopping policy; official
-test remains untouched.**
+test remains untouched. The commit-pinned v3 validation-only evaluation
+notebook is ready; its full Kaggle run remains pending.**
 
 ## Data audit gate
 

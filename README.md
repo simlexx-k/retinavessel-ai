@@ -81,6 +81,11 @@ Tests (no medical dataset needed):
 PYTHONPATH=src pytest -q
 ```
 
+The commit-pinned `retinavessel-ai-v3.ipynb` consumes the verified v2
+checkpoint archive and runs the complete validation-only robustness, topology
+and efficiency matrix on Kaggle. It intentionally contains no official-test
+evaluation cell.
+
 ### Current capabilities
 
 - Verified download of the **original** FIVES release using MD5.
