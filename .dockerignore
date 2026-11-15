@@ -1,0 +1,14 @@
+.git
+.pytest_cache
+.venv*
+**/__pycache__
+*.pyc
+*.pt
+*.pth
+*.rar
+backend/model_registry.json
+checkpoints
+data
+models
+outputs
+retinavessel-ai-v*.ipynb

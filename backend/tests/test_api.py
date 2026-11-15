@@ -56,6 +56,11 @@ def test_health_registry_and_segmentation(tmp_path):
         max_image_pixels=4096,
     )
     with TestClient(create_app(settings)) as client:
+        live = client.get("/health/live", headers={"X-Request-ID": "fixture-request"})
+        assert live.status_code == 200
+        assert live.json() == {"status": "alive"}
+        assert live.headers["x-request-id"] == "fixture-request"
+        assert float(live.headers["x-process-time-ms"]) >= 0
         health = client.get("/health")
         assert health.status_code == 200
         assert health.json() == {
@@ -138,3 +143,54 @@ def test_registry_configuration_resolves_relative_checkpoints(tmp_path, monkeypa
     settings = Settings.from_env()
     assert settings.default_model == "lite"
     assert settings.models[0].checkpoint == tmp_path / "models/lite.pt"
+
+
+def test_api_key_and_explicit_cors_policy(tmp_path):
+    checkpoint = tmp_path / "tiny.pt"
+    make_checkpoint(checkpoint)
+    settings = Settings(
+        models=(ModelSpec("tiny", checkpoint),),
+        default_model="tiny",
+        device="cpu",
+        api_key="fixture-secret-key",
+        cors_origins=("http://localhost:3000",),
+    )
+    with TestClient(create_app(settings)) as client:
+        assert client.get("/health/live").status_code == 200
+
+        missing = client.get("/v1/models")
+        assert missing.status_code == 401
+        assert missing.headers["www-authenticate"] == "APIKey"
+
+        wrong = client.get("/v1/models", headers={"X-API-Key": "wrong"})
+        assert wrong.status_code == 401
+
+        allowed = client.get(
+            "/v1/models",
+            headers={
+                "Origin": "http://localhost:3000",
+                "X-API-Key": "fixture-secret-key",
+            },
+        )
+        assert allowed.status_code == 200
+        assert allowed.headers["access-control-allow-origin"] == "http://localhost:3000"
+        assert "X-Request-ID" in allowed.headers["access-control-expose-headers"]
+
+        preflight = client.options(
+            "/v1/models",
+            headers={
+                "Origin": "http://localhost:3000",
+                "Access-Control-Request-Method": "GET",
+                "Access-Control-Request-Headers": "X-API-Key",
+            },
+        )
+        assert preflight.status_code == 200
+
+
+def test_cors_wildcard_is_rejected(tmp_path):
+    with pytest.raises(ValueError, match="wildcard"):
+        Settings(
+            models=(ModelSpec("tiny", tmp_path / "unused.pt"),),
+            default_model="tiny",
+            cors_origins=("*",),
+        )

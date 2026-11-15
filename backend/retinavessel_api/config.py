@@ -4,6 +4,7 @@ import json
 import os
 from pathlib import Path
 import re
+from urllib.parse import urlsplit
 
 
 MODEL_ID_PATTERN = re.compile(r"^[a-z0-9][a-z0-9_-]{0,63}$")
@@ -23,6 +24,8 @@ class Settings:
     device: str = "auto"
     max_upload_bytes: int = 25 * 1024 * 1024
     max_image_pixels: int = 30_000_000
+    api_key: str | None = None
+    cors_origins: tuple[str, ...] = ()
 
     def __post_init__(self):
         if not self.models:
@@ -36,6 +39,10 @@ class Settings:
             raise ValueError("Default model is not present in the registry")
         if self.max_upload_bytes <= 0 or self.max_image_pixels <= 0:
             raise ValueError("Upload byte and image pixel limits must be positive")
+        if self.api_key is not None and len(self.api_key) < 16:
+            raise ValueError("RETINAVESSEL_API_KEY must contain at least 16 characters")
+        for origin in self.cors_origins:
+            _validate_origin(origin)
 
     @classmethod
     def from_env(cls):
@@ -65,7 +72,17 @@ class Settings:
             max_image_pixels=_positive_env(
                 "RETINAVESSEL_MAX_IMAGE_PIXELS", 30_000_000
             ),
+            api_key=os.getenv("RETINAVESSEL_API_KEY") or None,
+            cors_origins=cors_origins_from_env(),
         )
+
+
+def cors_origins_from_env():
+    raw = os.getenv("RETINAVESSEL_CORS_ORIGINS", "")
+    origins = tuple(origin.strip().rstrip("/") for origin in raw.split(",") if origin.strip())
+    for origin in origins:
+        _validate_origin(origin)
+    return origins
 
 
 def _positive_env(name, default):
@@ -101,3 +118,13 @@ def _read_registry(path):
     if not isinstance(default_model, str):
         raise ValueError("Model registry must declare 'default_model'")
     return tuple(models), default_model
+
+
+def _validate_origin(origin):
+    if origin == "*":
+        raise ValueError("CORS wildcard is not allowed; configure explicit origins")
+    parsed = urlsplit(origin)
+    if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+        raise ValueError(f"Invalid CORS origin: {origin}")
+    if parsed.path not in {"", "/"} or parsed.query or parsed.fragment:
+        raise ValueError(f"CORS origins cannot contain paths, queries or fragments: {origin}")
