@@ -15,6 +15,7 @@ class ModelSpec:
     model_id: str
     checkpoint: Path
     description: str = ""
+    expected_sha256: str | None = None
 
 
 @dataclass(frozen=True)
@@ -100,12 +101,14 @@ def _read_registry(path):
         raise ValueError("Model registry must contain a non-empty 'models' object")
     models = []
     for model_id, entry in raw_models.items():
+        expected_sha256 = None
         if isinstance(entry, str):
             checkpoint = entry
             description = ""
         elif isinstance(entry, dict):
             checkpoint = entry.get("checkpoint")
             description = entry.get("description", "")
+            expected_sha256 = entry.get("sha256")
         else:
             raise ValueError(f"Invalid registry entry for {model_id}")
         if not checkpoint:
@@ -113,7 +116,18 @@ def _read_registry(path):
         checkpoint_path = Path(checkpoint).expanduser()
         if not checkpoint_path.is_absolute():
             checkpoint_path = path.expanduser().parent / checkpoint_path
-        models.append(ModelSpec(model_id, checkpoint_path, str(description)))
+        if expected_sha256 is not None and not re.fullmatch(
+            r"[0-9a-f]{64}", str(expected_sha256)
+        ):
+            raise ValueError(f"Registry entry {model_id} has an invalid SHA-256")
+        models.append(
+            ModelSpec(
+                model_id,
+                checkpoint_path,
+                str(description),
+                None if expected_sha256 is None else str(expected_sha256),
+            )
+        )
     default_model = payload.get("default_model")
     if not isinstance(default_model, str):
         raise ValueError("Model registry must declare 'default_model'")

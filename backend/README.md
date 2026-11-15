@@ -57,6 +57,27 @@ unset RETINAVESSEL_CHECKPOINT
 
 Relative checkpoint paths are resolved relative to the registry JSON file.
 
+## Promote a training artifact
+
+Use the promotion command for a trusted Kaggle `best.pt` instead of manually
+renaming checkpoints. It strictly loads the model, verifies architecture and
+tiling metadata, checks the run-manifest result, copies to a SHA-addressed
+filename, writes a provenance sidecar and atomically updates the local registry:
+
+```bash
+PYTHONPATH=src:backend python -m retinavessel_api.artifacts \
+  --checkpoint /path/to/best.pt \
+  --model-id lite_robust_seed42_candidate \
+  --description "Seed-42 degradation-trained development candidate" \
+  --run-manifest /path/to/run_manifest.json \
+  --experiment lite_robust_seed42_es \
+  --default
+```
+
+Both `models/` and `backend/model_registry.json` are local deployment artifacts
+and are excluded from Git. Promotion does not imply that a single-seed model is
+the final research winner.
+
 ## API
 
 - `GET /health/live` — process liveness; never requires an API key.

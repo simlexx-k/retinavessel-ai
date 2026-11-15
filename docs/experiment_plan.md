@@ -1,8 +1,9 @@
 # Experiment notebook / decisions log
 
-Status updated 2026-11-15: **official FIVES archive verified and audited; data
-policy and development split frozen; three preliminary 10-epoch Kaggle
-validation runs completed; official test remains untouched.**
+Status updated 2026-11-16: **official FIVES archive verified and audited; data
+policy and development split frozen; three controlled seed-42 Kaggle
+validation runs completed under the declared early-stopping policy; official
+test remains untouched.**
 
 ## Data audit gate
 
@@ -21,7 +22,7 @@ validation runs completed; official test remains untouched.**
 - [x] Train lite U-Net under matched settings.
 - [x] Train lite U-Net with quality augmentation under matched settings.
 - [x] Compare preliminary fixed-budget validation trends.
-- [ ] Repeat under the declared 30-epoch maximum / patience-5 policy.
+- [x] Repeat under the declared 30-epoch maximum / patience-5 policy.
 - [ ] Run full untouched primary test once, with declared threshold and FOV method.
 - [ ] Include clDice and parameter count in summary tables.
 - [ ] Save examples of genuine successes and failures.
@@ -34,6 +35,7 @@ validation runs completed; official test remains untouched.**
 - [ ] Add a rigorous thin-vessel width metric and predeclared severity tests.
 - [ ] Add confidence intervals and multi-seed experimental replication.
 - [x] Build a separate multi-model FastAPI inference backend with bounded uploads.
+- [x] Connect the leading development candidate to the backend with verified provenance.
 - [ ] Connect the frozen winning checkpoint and build the upload/overlay frontend.
 
 ## Results templates
@@ -46,24 +48,28 @@ validation runs completed; official test remains untouched.**
 
 **Never enter invented benchmark scores or classify the pipeline as clinically validated.**
 
-## Preliminary validation results
+## Controlled validation results (v2)
 
-These are seed-42 development-set results transcribed from the Kaggle training
-logs. They are not official-test results. All runs used the frozen manifest,
-384-pixel patches, batch size 2, two patches per image and a 10-epoch budget.
-All three achieved their best validation Dice at epoch 10, motivating the
-predeclared 30-epoch maximum with patience 5 for the next controlled runs.
+These are seed-42 development-set results verified from the downloaded Kaggle
+checkpoints, histories, split manifests and run manifest. They are not
+official-test results. Every run used the same frozen 89-image validation set,
+384-pixel patches, batch size 2, two patches per training image, a 30-epoch
+maximum and patience-5 early stopping. The frozen split SHA-256 was
+`aee8809176974d6f880013d85a3ab4a405a43121d0cf31363fcc47dd75256c87`.
 
-| Model | Parameters | Best epoch | Mean validation Dice |
-|---|---:|---:|---:|
-| Standard U-Net | 1,964,097 | 10 | 0.793534 |
-| Lite U-Net | 236,156 | 10 | 0.833296 |
-| Lite U-Net + degradation | 236,156 | 10 | 0.839926 |
+| Model | Parameters | Best epoch | Stopped epoch | Mean validation Dice |
+|---|---:|---:|---:|---:|
+| Standard U-Net | 1,964,097 | 15 | 20 | 0.823469 |
+| Lite U-Net | 236,156 | 8 | 13 | 0.826155 |
+| Lite U-Net + degradation | 236,156 | 10 | 15 | **0.845217** |
 
-The degradation-trained model's 0.006630 advantage over the clean lite model
-is too small to interpret without repeated seeds and degradation-stratified
-validation. Checkpoint artifacts remain in Kaggle outputs and are deliberately
-excluded from Git.
+The degradation-trained lite model leads the clean lite model by 0.019062 Dice
+and the standard U-Net by 0.021749 on this one seed. It is therefore the
+current development candidate, not a frozen research winner: multi-seed,
+degradation-stratified, topology and efficiency evaluation remain pending.
+Its SHA-addressed checkpoint was promoted to the local inference registry with
+the Kaggle run provenance attached. Model binaries and the local registry are
+deliberately excluded from Git.
 
 ## Compute readiness
 

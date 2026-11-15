@@ -22,12 +22,19 @@ class SegmentationResult:
 
 
 class LoadedModel:
-    def __init__(self, model_id, description, checkpoint_path, device):
+    def __init__(
+        self, model_id, description, checkpoint_path, device, expected_sha256=None
+    ):
         self.model_id = model_id
         self.description = description
         self.checkpoint_path = Path(checkpoint_path)
         if not self.checkpoint_path.is_file():
             raise FileNotFoundError(f"Checkpoint does not exist: {self.checkpoint_path}")
+        checkpoint_sha256 = _sha256(self.checkpoint_path)
+        if expected_sha256 is not None and checkpoint_sha256 != expected_sha256:
+            raise ValueError(
+                f"Checkpoint SHA-256 does not match registry for {model_id}"
+            )
         checkpoint = torch.load(
             self.checkpoint_path, map_location="cpu", weights_only=True
         )
@@ -60,7 +67,7 @@ class LoadedModel:
             "tile": self.tile,
             "overlap": self.overlap,
             "threshold": self.threshold,
-            "checkpoint_sha256": _sha256(self.checkpoint_path),
+            "checkpoint_sha256": checkpoint_sha256,
             "validation_dice": checkpoint.get("validation_dice"),
             "validation_epoch": checkpoint.get("epoch"),
         }
@@ -89,7 +96,11 @@ class ModelRegistry:
         self.default_model = settings.default_model
         self.models = {
             spec.model_id: LoadedModel(
-                spec.model_id, spec.description, spec.checkpoint, self.device
+                spec.model_id,
+                spec.description,
+                spec.checkpoint,
+                self.device,
+                spec.expected_sha256,
             )
             for spec in settings.models
         }

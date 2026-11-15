@@ -1,4 +1,5 @@
 from io import BytesIO
+import hashlib
 import json
 
 from fastapi.testclient import TestClient
@@ -135,6 +136,7 @@ def test_registry_configuration_resolves_relative_checkpoints(tmp_path, monkeypa
             "lite": {
                 "checkpoint": "models/lite.pt",
                 "description": "fixture",
+                "sha256": "a" * 64,
             }
         },
     }))
@@ -143,6 +145,29 @@ def test_registry_configuration_resolves_relative_checkpoints(tmp_path, monkeypa
     settings = Settings.from_env()
     assert settings.default_model == "lite"
     assert settings.models[0].checkpoint == tmp_path / "models/lite.pt"
+    assert settings.models[0].expected_sha256 == "a" * 64
+
+
+def test_registry_checkpoint_hash_is_enforced(tmp_path):
+    checkpoint = tmp_path / "tiny.pt"
+    make_checkpoint(checkpoint)
+    actual_hash = hashlib.sha256(checkpoint.read_bytes()).hexdigest()
+    settings = Settings(
+        models=(ModelSpec("tiny", checkpoint, expected_sha256=actual_hash),),
+        default_model="tiny",
+        device="cpu",
+    )
+    with TestClient(create_app(settings)) as client:
+        assert client.get("/health/ready").status_code == 200
+
+    invalid = Settings(
+        models=(ModelSpec("tiny", checkpoint, expected_sha256="0" * 64),),
+        default_model="tiny",
+        device="cpu",
+    )
+    with pytest.raises(ValueError, match="does not match registry"):
+        with TestClient(create_app(invalid)):
+            pass
 
 
 def test_api_key_and_explicit_cors_policy(tmp_path):
