@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+from types import SimpleNamespace
 import numpy as np
 from PIL import Image
 import torch
@@ -17,6 +18,7 @@ from retinavessel.model import UNet,combined_loss
 from retinavessel.inference import predict_probability
 from retinavessel.metrics import compute_metrics,approx_fov
 from retinavessel.audit import audit
+from retinavessel.train import train
 
 
 def make_fixture(tmp_path):
@@ -97,3 +99,36 @@ def test_train_predict_and_metrics():
     result=compute_metrics(np.ones((64,64)),np.ones((64,64),dtype=bool),np.ones((64,64),dtype=bool),include_topology=True)
     assert result['dice']==1 and result['cldice']==1
     assert approx_fov(Image.fromarray(rgb)).any()
+
+
+def test_training_resume_matches_uninterrupted_run(tmp_path):
+    root=make_fixture(tmp_path)
+    split_path=tmp_path/'split.json'
+    split_path.write_text(json.dumps({
+        'train':['1_A'],
+        'validation':['2_D'],
+        'excluded':{},
+    }))
+
+    def args(out,epochs,resume=None):
+        return SimpleNamespace(
+            data=str(root),model='lite_unet',out=str(out),epochs=epochs,
+            batch_size=1,patch_size=64,patches_per_image=1,overlap=16,
+            lr=1e-3,base=2,seed=42,split_manifest=str(split_path),
+            val_limit=None,train_limit=None,device='cpu',workers=0,
+            degradation=False,patience=5,resume=resume,
+        )
+
+    continuous=tmp_path/'continuous'
+    staged=tmp_path/'staged'
+    train(args(continuous,2))
+    train(args(staged,1))
+    train(args(staged,2,str(staged/'last.pt')))
+
+    uninterrupted=torch.load(continuous/'last.pt',map_location='cpu',weights_only=False)
+    resumed=torch.load(staged/'last.pt',map_location='cpu',weights_only=False)
+    assert resumed['epoch']==2
+    assert resumed['history']==uninterrupted['history']
+    assert resumed['best_validation_dice']==uninterrupted['best_validation_dice']
+    for name,value in uninterrupted['model_state'].items():
+        assert torch.equal(value,resumed['model_state'][name]),name

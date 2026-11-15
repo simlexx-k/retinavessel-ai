@@ -38,11 +38,18 @@ python -m retinavessel.audit --data data/fives --out outputs/data_audit.json
 python scripts/prepare_fives_split.py --data data/fives \
   --audit outputs/data_audit.json --out splits/fives_seed42.json
 
-# After the audit is reviewed and accepted, train an initial baseline:
-python -m retinavessel.train --data data/fives --model unet --epochs 10 --out outputs/unet
+# After the audit is reviewed and accepted, train with a maximum epoch budget
+# and validation-based early stopping:
+python -m retinavessel.train --data data/fives --model unet --epochs 30 \
+  --patience 5 --out outputs/unet
+
+# Resume an interrupted run exactly; --epochs is the new total target:
+python -m retinavessel.train --data data/fives --model unet --epochs 30 \
+  --patience 5 --out outputs/unet --resume outputs/unet/last.pt
 
 # Train the compact variant with training-only image-quality augmentation:
-python -m retinavessel.train --data data/fives --model lite_unet --degradation --epochs 10 --out outputs/lite_robust
+python -m retinavessel.train --data data/fives --model lite_unet --degradation \
+  --epochs 30 --patience 5 --out outputs/lite_robust
 
 # Official FIVES test, only after freezing all model-selection decisions:
 python -m retinavessel.evaluate --data data/fives --checkpoint outputs/unet/best.pt --topology --out outputs/test_unet
