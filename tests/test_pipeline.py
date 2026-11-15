@@ -13,12 +13,14 @@ from retinavessel.data import (
     samples_from_frozen_split,
     FIVESPatchDataset,
 )
+from retinavessel.degradations import apply_degradation, stable_degradation_seed
 from retinavessel.quality import QualityScore
 from retinavessel.model import UNet,combined_loss
 from retinavessel.inference import predict_probability
 from retinavessel.metrics import compute_metrics,approx_fov
 from retinavessel.audit import audit
 from retinavessel.train import train
+from retinavessel.validation import run_validation
 
 
 def make_fixture(tmp_path):
@@ -101,6 +103,25 @@ def test_train_predict_and_metrics():
     assert approx_fov(Image.fromarray(rgb)).any()
 
 
+def test_deterministic_degradations_and_thin_vessel_metrics():
+    image=Image.fromarray(np.full((64,64,3),100,dtype='uint8'))
+    seed=stable_degradation_seed(2026,'fixture','noise_mild')
+    first=np.asarray(apply_degradation(image,'noise_mild',seed))
+    second=np.asarray(apply_degradation(image,'noise_mild',seed))
+    assert np.array_equal(first,second)
+    assert np.array_equal(np.asarray(apply_degradation(image,'clean')),np.asarray(image))
+
+    truth=np.zeros((64,64),dtype=bool)
+    truth[8:56,32]=True
+    result=compute_metrics(
+        truth.astype(np.float32),truth,np.ones_like(truth),include_topology=True
+    )
+    assert result['cldice']==1
+    assert result['thin_centerline_recall']==1
+    assert result['thin_centerline_pixels']==48
+    assert result['skeleton_component_ratio']==1
+
+
 def test_training_resume_matches_uninterrupted_run(tmp_path):
     root=make_fixture(tmp_path)
     split_path=tmp_path/'split.json'
@@ -132,3 +153,41 @@ def test_training_resume_matches_uninterrupted_run(tmp_path):
     assert resumed['best_validation_dice']==uninterrupted['best_validation_dice']
     for name,value in uninterrupted['model_state'].items():
         assert torch.equal(value,resumed['model_state'][name]),name
+
+
+def test_validation_runner_uses_only_frozen_validation_samples(tmp_path):
+    root=make_fixture(tmp_path)
+    split_path=tmp_path/'split.json'
+    split_path.write_text(json.dumps({
+        'train':['1_A','2_D','3_G'],
+        'validation':['4_N'],
+        'excluded':{},
+    }))
+    checkpoint=tmp_path/'best.pt'
+    model=UNet(base=2,lite=True)
+    torch.save({
+        'model_state':model.state_dict(),
+        'architecture':'lite_unet',
+        'base':2,
+        'tile':64,
+        'overlap':16,
+        'threshold':0.5,
+        'seed':42,
+        'validation_dice':0.5,
+        'epoch':1,
+    },checkpoint)
+    output=tmp_path/'validation'
+    report=run_validation(SimpleNamespace(
+        data=str(root),split_manifest=str(split_path),
+        expected_split_sha256=None,validation_limit=None,
+        conditions=['clean','noise_mild'],model=[f'lite={checkpoint}'],
+        device='cpu',warmup_runs=0,degradation_seed=2026,
+        topology=True,thin_max_radius=2.0,thin_tolerance=1,
+        bootstrap_repetitions=20,bootstrap_seed=2026,out=str(output),
+    ))
+    assert report['official_test_evaluated'] is False
+    assert report['validation_image_count']==1
+    assert len(report['summary'])==2
+    rows=(output/'validation_per_image.csv').read_text().splitlines()
+    assert len(rows)==3
+    assert all('4_N' in row for row in rows[1:])

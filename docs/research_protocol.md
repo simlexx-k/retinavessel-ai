@@ -69,7 +69,11 @@ Secondary: per-image IoU, sensitivity, specificity, precision, centerline Dice (
 
 **FOV evaluation:** FIVES does not contain a standard dedicated FOV mask in the two image/mask directories, so the starter code derives an approximate FOV from fundus image intensity. This requires sensitivity analysis and visual confirmation. HRF supplies official FOV masks. Do not compare cross-study scores without harmonizing FOV and thresholding policies.
 
-**Synthetic stress tests:** For fixed model checkpoints, evaluate blur, gamma/brightness and contrast perturbations, plus image noise at predeclared severity levels. Never alter the ground-truth vessel mask. Distinguish these from real low-quality photos and be mindful that high perturbation may physically erase vessels, making ground truth ambiguous.
+**Synthetic stress tests:** For fixed model checkpoints, evaluate the exact
+blur, illumination, contrast and noise perturbations predeclared in
+`v3_validation_protocol.md`. Never alter the ground-truth vessel mask.
+Distinguish these from real low-quality photos and be mindful that high
+perturbation may physically erase vessels, making ground truth ambiguous.
 
 ## Statistical analysis and validity threats
 

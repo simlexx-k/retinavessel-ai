@@ -32,7 +32,8 @@ test remains untouched.**
 - [ ] Independently verify HRF and CHASE_DB1 structure, rights and mask/FOV conventions.
 - [ ] Implement dataset-specific external importers, independent observer ground-truth policy.
 - [ ] Evaluate at native resolution without external-set fine-tuning.
-- [ ] Add a rigorous thin-vessel width metric and predeclared severity tests.
+- [x] Implement and predeclare v3 thin-vessel, topology, severity and efficiency measures.
+- [ ] Execute the full three-model v3 validation-only evaluation on Kaggle.
 - [ ] Add confidence intervals and multi-seed experimental replication.
 - [x] Build a separate multi-model FastAPI inference backend with bounded uploads.
 - [x] Connect the leading development candidate to the backend with verified provenance.

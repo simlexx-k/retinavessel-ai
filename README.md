@@ -51,6 +51,13 @@ python -m retinavessel.train --data data/fives --model unet --epochs 30 \
 python -m retinavessel.train --data data/fives --model lite_unet --degradation \
   --epochs 30 --patience 5 --out outputs/lite_robust
 
+# Validation-only v3 robustness/topology run; repeat --model for checkpoints.
+# This command resolves only the frozen development-validation IDs.
+python -m retinavessel.validation --data data/fives \
+  --split-manifest splits/fives_seed42.json \
+  --model lite_robust=outputs/lite_robust/best.pt \
+  --topology --device cuda --out outputs/validation_v3
+
 # Official FIVES test, only after freezing all model-selection decisions:
 python -m retinavessel.evaluate --data data/fives --checkpoint outputs/unet/best.pt --topology --out outputs/test_unet
 
@@ -85,6 +92,8 @@ PYTHONPATH=src pytest -q
 - Optional synthetic blur/low contrast/brightness/noise **on training images only**.
 - Full-resolution overlapping tiled inference.
 - Per-image and micro-averaged field-of-view restricted Dice, IoU, sensitivity, specificity, precision; optional clDice.
+- Deterministic validation-only quality stress tests, thin-centerline recall,
+  skeleton fragmentation, paired degradation drops and image-level bootstrap intervals.
 - Model output with overlay visualization and JSON/CSV experiment records.
 - Separate multi-model FastAPI inference backend with bounded image uploads.
 

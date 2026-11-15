@@ -1,6 +1,12 @@
-"""Retina-only (FOV masked) pixel metrics and optional topology metric."""
+"""Retina-only pixel, centerline, connectivity and thin-vessel metrics."""
 import numpy as np
-from scipy.ndimage import binary_closing, binary_fill_holes, label
+from scipy.ndimage import (
+    binary_closing,
+    binary_dilation,
+    binary_fill_holes,
+    distance_transform_edt,
+    label,
+)
 from skimage.morphology import skeletonize
 
 
@@ -16,7 +22,23 @@ def approx_fov(image, threshold=10):
     return labels == sizes.argmax()
 
 
-def compute_metrics(prob, ground_truth, fov, threshold=0.5, include_topology=False):
+def _component_count(skeleton, minimum_pixels=5):
+    labels, count = label(skeleton, structure=np.ones((3, 3), dtype=bool))
+    if count == 0:
+        return 0
+    sizes = np.bincount(labels.ravel())
+    return int(np.sum(sizes[1:] >= minimum_pixels))
+
+
+def compute_metrics(
+    prob,
+    ground_truth,
+    fov,
+    threshold=0.5,
+    include_topology=False,
+    thin_max_radius=2.0,
+    thin_tolerance=1,
+):
     truth = np.asarray(ground_truth, dtype=bool)
     fov = np.asarray(fov, dtype=bool)
     pred = np.asarray(prob) >= threshold
@@ -39,4 +61,27 @@ def compute_metrics(prob, ground_truth, fov, threshold=0.5, include_topology=Fal
         tprec = ratio((pskel & truth).sum(), pskel.sum())
         tsens = ratio((tskel & pred).sum(), tskel.sum())
         out['cldice'] = ratio(2*tprec*tsens, tprec+tsens)
+        radius = distance_transform_edt(truth & fov)
+        thin_centerline = tskel & (radius <= float(thin_max_radius))
+        if thin_tolerance < 0:
+            raise ValueError('thin_tolerance must be non-negative')
+        detected = pred & fov
+        if thin_tolerance:
+            detected = binary_dilation(
+                detected,
+                structure=np.ones((3, 3), dtype=bool),
+                iterations=int(thin_tolerance),
+            )
+        thin_pixels = int(thin_centerline.sum())
+        out['thin_centerline_pixels'] = thin_pixels
+        out['thin_centerline_recall'] = ratio(
+            (thin_centerline & detected).sum(), thin_pixels
+        )
+        predicted_components = _component_count(pskel)
+        truth_components = _component_count(tskel)
+        out['predicted_skeleton_components'] = predicted_components
+        out['truth_skeleton_components'] = truth_components
+        out['skeleton_component_ratio'] = ratio(
+            predicted_components, truth_components
+        )
     return out
