@@ -58,6 +58,14 @@ python -m retinavessel.evaluate --data data/fives --checkpoint outputs/unet/best
 python -m retinavessel.predict --checkpoint outputs/unet/best.pt --image PATH/TO/FUNDUS.png --out outputs/prediction
 ```
 
+### Inference backend
+
+The working-application phase now has a separately packaged FastAPI backend in
+[`backend/`](backend/README.md). It loads one or more trusted checkpoints at
+startup and exposes health, model-registry and mask/overlay endpoints without
+coupling FastAPI to the training package. See the backend README for setup,
+configuration and `curl` examples.
+
 If automatic RAR extraction fails, use 7-Zip to unpack the manually downloaded official archive, then pass the directory containing `train/Original`, `train/Ground Truth`, `test/Original`, and `test/Ground Truth` via `--data`.
 
 Tests (no medical dataset needed):
@@ -78,6 +86,7 @@ PYTHONPATH=src pytest -q
 - Full-resolution overlapping tiled inference.
 - Per-image and micro-averaged field-of-view restricted Dice, IoU, sensitivity, specificity, precision; optional clDice.
 - Model output with overlay visualization and JSON/CSV experiment records.
+- Separate multi-model FastAPI inference backend with bounded image uploads.
 
 ### Not implemented yet (planned research phases)
 

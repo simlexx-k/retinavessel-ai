@@ -33,7 +33,8 @@ validation runs completed; official test remains untouched.**
 - [ ] Evaluate at native resolution without external-set fine-tuning.
 - [ ] Add a rigorous thin-vessel width metric and predeclared severity tests.
 - [ ] Add confidence intervals and multi-seed experimental replication.
-- [ ] Prototype a research visualization interface and document its medical limitations.
+- [x] Build a separate multi-model FastAPI inference backend with bounded uploads.
+- [ ] Connect the frozen winning checkpoint and build the upload/overlay frontend.
 
 ## Results templates
 

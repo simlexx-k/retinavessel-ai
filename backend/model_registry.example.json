@@ -1,0 +1,17 @@
+{
+  "default_model": "lite_robust",
+  "models": {
+    "unet": {
+      "checkpoint": "../models/unet_best.pt",
+      "description": "Standard U-Net research baseline"
+    },
+    "lite_unet": {
+      "checkpoint": "../models/lite_unet_best.pt",
+      "description": "Depthwise-separable lightweight U-Net"
+    },
+    "lite_robust": {
+      "checkpoint": "../models/lite_robust_best.pt",
+      "description": "Lightweight U-Net trained with synthetic quality degradation"
+    }
+  }
+}
