@@ -111,8 +111,10 @@ scheme and port, for example `http://localhost:3000,https://research.example`.
 
 ## Container
 
-The reference container runs one CPU inference worker as an unprivileged user.
-One worker is intentional: every worker would load its own copy of every model.
+The reference container uses the official `python:3.15.2-slim` image and runs
+one CPU inference worker as an unprivileged user. PyTorch 2.15 or newer is
+required because it provides Python 3.15 binary support. One worker is
+intentional: every worker would load its own copy of every model.
 Copy the example registry, place checkpoints under the repository-level
 `models/` directory, then run:
 
