@@ -73,6 +73,11 @@ startup and exposes health, model-registry and mask/overlay endpoints without
 coupling FastAPI to the training package. See the backend README for setup,
 configuration and `curl` examples.
 
+The separate [`frontend/`](frontend/README.md) module is a Next.js App Router
+and TypeScript interface. Its server-side route handlers proxy browser uploads
+to FastAPI, keeping the internal API URL and optional API key out of client
+JavaScript. Run both modules from the root `compose.yaml`.
+
 If automatic RAR extraction fails, use 7-Zip to unpack the manually downloaded official archive, then pass the directory containing `train/Original`, `train/Ground Truth`, `test/Original`, and `test/Ground Truth` via `--data`.
 
 Tests (no medical dataset needed):

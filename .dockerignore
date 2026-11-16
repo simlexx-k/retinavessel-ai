@@ -1,6 +1,9 @@
 .git
 .pytest_cache
 .venv*
+**/node_modules
+**/.next
+**/coverage
 **/__pycache__
 *.pyc
 *.pt
@@ -9,6 +12,6 @@
 backend/model_registry.json
 checkpoints
 data
-models
+/models
 outputs
 retinavessel-ai-v*.ipynb

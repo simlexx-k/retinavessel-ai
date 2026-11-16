@@ -1,0 +1,47 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    init: true
+    read_only: true
+    tmpfs:
+      - /tmp:size=256m
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      RETINAVESSEL_MODEL_REGISTRY: /app/config/model_registry.json
+      RETINAVESSEL_DEVICE: cpu
+      RETINAVESSEL_API_KEY: ${RETINAVESSEL_API_KEY:-}
+      RETINAVESSEL_CORS_ORIGINS: ${RETINAVESSEL_CORS_ORIGINS:-http://localhost:3000}
+    volumes:
+      - ./backend/model_registry.json:/app/config/model_registry.json:ro
+      - ./models:/app/models:ro
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    init: true
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m
+      - /app/.next/cache:size=64m
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      RETINAVESSEL_API_URL: http://api:8000
+      RETINAVESSEL_API_KEY: ${RETINAVESSEL_API_KEY:-}
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped

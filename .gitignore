@@ -8,7 +8,12 @@ data/
 outputs/
 checkpoints/
 backend/model_registry.json
-models/
+/models/
+frontend/node_modules/
+frontend/.next/
+frontend/coverage/
+frontend/.env*.local
+frontend/*.tsbuildinfo
 *.pth
 *.pt
 *.rar

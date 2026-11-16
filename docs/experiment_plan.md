@@ -38,6 +38,7 @@ additional-seed replication is the active stage.**
 - [x] Add image-level bootstrap confidence intervals.
 - [ ] Complete predeclared training seeds 7 and 123 and aggregate across seeds.
 - [x] Build a separate multi-model FastAPI inference backend with bounded uploads.
+- [x] Build a separate Next.js upload/overlay frontend with a server-side API proxy.
 - [x] Connect the leading development candidate to the backend with verified provenance.
 - [ ] Connect the frozen winning checkpoint and build the upload/overlay frontend.
 
