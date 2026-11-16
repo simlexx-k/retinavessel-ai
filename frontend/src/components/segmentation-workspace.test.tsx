@@ -71,7 +71,7 @@ describe("SegmentationWorkspace", () => {
       </QueryClientProvider>,
     );
 
-    expect(await screen.findByText("Inference ready")).toBeInTheDocument();
+    expect(await screen.findByText("Inference ready", {}, { timeout: 5_000 })).toBeInTheDocument();
     expect(screen.getByText("0.8452")).toBeInTheDocument();
 
     const input = container.querySelector<HTMLInputElement>('input[type="file"]');

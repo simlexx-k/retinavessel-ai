@@ -7,9 +7,11 @@ optional API key remain server-only.
 The interface is organized as an imaging workstation: validated drag-and-drop
 upload, registered-model provenance, threshold and overlay controls, an
 original/result comparison viewport, zoom controls, inference telemetry and
-PNG export. Its UI stack uses Radix UI primitives, TanStack Query,
-react-dropzone, React Compare Slider, Motion, Lucide and Sonner. These packages
-are pinned in `package.json` and `package-lock.json`.
+PNG export. Persistent dark, light and operating-system themes are available
+from the header; the image viewport stays dark in every theme for consistent
+inspection contrast. Its UI stack uses Radix UI primitives, TanStack Query,
+next-themes, react-dropzone, React Compare Slider, Motion, Lucide and Sonner.
+These packages are pinned in `package.json` and `package-lock.json`.
 
 ## Local development
 

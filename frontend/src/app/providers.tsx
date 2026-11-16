@@ -2,6 +2,7 @@
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MotionConfig } from "motion/react";
+import { ThemeProvider, useTheme } from "next-themes";
 import { useState } from "react";
 import { Toaster } from "sonner";
 
@@ -21,13 +22,23 @@ export function Providers({ children }: { children: React.ReactNode }) {
   );
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <MotionConfig reducedMotion="user">{children}</MotionConfig>
-      <Toaster
-        position="bottom-right"
-        richColors
-        toastOptions={{ className: "workspace-toast" }}
-      />
-    </QueryClientProvider>
+    <ThemeProvider attribute="data-theme" defaultTheme="dark" enableSystem disableTransitionOnChange>
+      <QueryClientProvider client={queryClient}>
+        <MotionConfig reducedMotion="user">{children}</MotionConfig>
+        <WorkspaceToaster />
+      </QueryClientProvider>
+    </ThemeProvider>
+  );
+}
+
+function WorkspaceToaster() {
+  const { resolvedTheme } = useTheme();
+  return (
+    <Toaster
+      position="bottom-right"
+      richColors
+      theme={resolvedTheme === "light" ? "light" : "dark"}
+      toastOptions={{ className: "workspace-toast" }}
+    />
   );
 }

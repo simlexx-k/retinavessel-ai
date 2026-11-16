@@ -2,6 +2,7 @@ import { Activity, CircleHelp, ShieldAlert } from "lucide-react";
 import { Tooltip } from "radix-ui";
 
 import { RetinaMark } from "@/components/retina-mark";
+import { ThemeSwitch } from "@/components/theme-switch";
 import type { HealthResponse } from "@/lib/types";
 
 export function WorkspaceHeader({ health, pending }: { health?: HealthResponse; pending: boolean }) {
@@ -23,6 +24,7 @@ export function WorkspaceHeader({ health, pending }: { health?: HealthResponse; 
           <ShieldAlert size={15} aria-hidden="true" />
           <span>Not for clinical use</span>
         </div>
+        <ThemeSwitch />
         <Tooltip.Root>
           <Tooltip.Trigger asChild>
             <button className="icon-button subtle" type="button" aria-label="About this workspace">
