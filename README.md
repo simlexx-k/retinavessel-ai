@@ -91,6 +91,12 @@ checkpoint archive and runs the complete validation-only robustness, topology
 and efficiency matrix on Kaggle. It intentionally contains no official-test
 evaluation cell.
 
+The commit-pinned `retinavessel-ai-v4-seed7.ipynb` and
+`retinavessel-ai-v5-seed123.ipynb` execute the two predeclared replication
+seeds under the frozen protocol in `docs/v4_multiseed_protocol.md`. Each fits
+all three model configurations and exports the complete validation-only
+matrix; neither notebook opens official-test pixels.
+
 ### Current capabilities
 
 - Verified download of the **original** FIVES release using MD5.
