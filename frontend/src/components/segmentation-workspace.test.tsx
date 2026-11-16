@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { SegmentationWorkspace } from "./segmentation-workspace";
@@ -61,16 +62,25 @@ describe("SegmentationWorkspace", () => {
       return Response.json({ detail: "not found" }, { status: 404 });
     });
     vi.stubGlobal("fetch", fetchMock);
-    const { container } = render(<SegmentationWorkspace />);
+    const queryClient = new QueryClient({
+      defaultOptions: { queries: { retry: false }, mutations: { retry: false } },
+    });
+    const { container } = render(
+      <QueryClientProvider client={queryClient}>
+        <SegmentationWorkspace />
+      </QueryClientProvider>,
+    );
 
-    expect(await screen.findByText("CPU inference ready")).toBeInTheDocument();
-    expect(screen.getByText("Val Dice 0.8452")).toBeInTheDocument();
+    expect(await screen.findByText("Inference ready")).toBeInTheDocument();
+    expect(screen.getByText("0.8452")).toBeInTheDocument();
 
     const input = container.querySelector<HTMLInputElement>('input[type="file"]');
     expect(input).not.toBeNull();
     const file = new File(["fixture"], "retina.png", { type: "image/png" });
     fireEvent.change(input!, { target: { files: [file] } });
-    fireEvent.click(screen.getByRole("button", { name: /run vessel segmentation/i }));
+    const runButton = screen.getByRole("button", { name: /run segmentation/i });
+    await waitFor(() => expect(runButton).toBeEnabled());
+    fireEvent.click(runButton);
 
     expect(await screen.findByText("1.25 s")).toBeInTheDocument();
     expect(screen.getByText("2048 × 2048")).toBeInTheDocument();

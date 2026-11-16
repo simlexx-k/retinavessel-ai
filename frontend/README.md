@@ -4,6 +4,13 @@ Next.js App Router and TypeScript interface for the separate FastAPI inference
 service. Browser requests use same-origin route handlers; the backend URL and
 optional API key remain server-only.
 
+The interface is organized as an imaging workstation: validated drag-and-drop
+upload, registered-model provenance, threshold and overlay controls, an
+original/result comparison viewport, zoom controls, inference telemetry and
+PNG export. Its UI stack uses Radix UI primitives, TanStack Query,
+react-dropzone, React Compare Slider, Motion, Lucide and Sonner. These packages
+are pinned in `package.json` and `package-lock.json`.
+
 ## Local development
 
 Start the FastAPI backend first, then:
