@@ -1,0 +1,48 @@
+{
+  "training_code_commit": "224e115808a3330ee17516f0348ccd8fda9aa5ba",
+  "split_manifest_sha256": "aee8809176974d6f880013d85a3ab4a405a43121d0cf31363fcc47dd75256c87",
+  "pytorch_version": "2.11.0+cu130",
+  "cuda_device": "Tesla T4",
+  "maximum_epochs": 30,
+  "early_stopping_patience": 5,
+  "seed": 7,
+  "official_test_evaluated": false,
+  "results": [
+    {
+      "experiment": "lite_robust_seed7_es",
+      "model": "lite_unet",
+      "degradation_training": true,
+      "seed": 7,
+      "parameters": 236156,
+      "completed_epochs": 17,
+      "best_epoch": 12,
+      "best_validation_dice": 0.845353211,
+      "checkpoint_sha256": "8cbc8bd7410b51248b071b4f6ff0b9c72317c94385f7627ec2e3a229eae2c8ed",
+      "wall_minutes_this_notebook": 90.33
+    },
+    {
+      "experiment": "lite_unet_seed7_es",
+      "model": "lite_unet",
+      "degradation_training": false,
+      "seed": 7,
+      "parameters": 236156,
+      "completed_epochs": 12,
+      "best_epoch": 7,
+      "best_validation_dice": 0.8286466663,
+      "checkpoint_sha256": "915061edaf8dcebc2050bceb0a34b4bbbb36203a026c1102f7d3aad7b538b644",
+      "wall_minutes_this_notebook": 63.28
+    },
+    {
+      "experiment": "unet_seed7_es",
+      "model": "unet",
+      "degradation_training": false,
+      "seed": 7,
+      "parameters": 1964097,
+      "completed_epochs": 13,
+      "best_epoch": 8,
+      "best_validation_dice": 0.79574695,
+      "checkpoint_sha256": "69e0e8ddd2175cbc6f0e52a6275cc1fbe38f2f47ac9728b258f2192243485c74",
+      "wall_minutes_this_notebook": 87.94
+    }
+  ]
+}

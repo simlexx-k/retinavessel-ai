@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "recorded_on": "2026-11-16",
+  "project": "RetinaVessel AI",
+  "dataset": {
+    "name": "FIVES original Figshare release",
+    "archive_md5": "789c80dd5376a82063e27fa49192bac9",
+    "frozen_split": "splits/fives_seed42.json",
+    "frozen_split_sha256": "aee8809176974d6f880013d85a3ab4a405a43121d0cf31363fcc47dd75256c87",
+    "development_train_count": 504,
+    "development_validation_count": 89,
+    "excluded_count": 7,
+    "official_test_count": 200,
+    "official_test_evaluated": false
+  },
+  "executed_notebooks": [
+    {
+      "path": "provenance/notebooks/executed/retinavessel-ai-v1.ipynb",
+      "role": "initial Kaggle smoke test and 10-epoch development runs",
+      "repository_sha256": "48af2f1b31d760bfd3a6c7d1910fe138bdf8afced5b5df1ca33c9ef9d3ac215d",
+      "original_sha256": "8411d84ecc028795e874f77a34986dd8a47870af657c9e7043544267ec924d91",
+      "code_cells": 11,
+      "executed_code_cells": 11,
+      "error_outputs": 0
+    },
+    {
+      "path": "provenance/notebooks/executed/retinavessel-ai-v2.ipynb",
+      "role": "controlled seed-42 training with early stopping",
+      "repository_sha256": "55ce634d0f5344a774b45e50c13a2b81b2b57a09faa7dceadf1ff4daa1f7a442",
+      "original_sha256": "7c722a1a74a7a723c506e9bee0c848878a7af43ccf29c782fdedfe361b250f30",
+      "code_cells": 9,
+      "executed_code_cells": 9,
+      "error_outputs": 0
+    },
+    {
+      "path": "provenance/notebooks/executed/retinavessel-ai-v3.ipynb",
+      "role": "seed-42 validation robustness, topology and efficiency matrix",
+      "repository_sha256": "e08bed0e81bf0370159db4363a6877b4829e2dd681d293e410094f423415d2ed",
+      "original_sha256": "51eb62dda833046832486331318462ea5eaa8ade90553d7fe604022ba831747a",
+      "code_cells": 8,
+      "executed_code_cells": 8,
+      "error_outputs": 0
+    },
+    {
+      "path": "provenance/notebooks/executed/retinavessel-ai-v4-seed7.ipynb",
+      "role": "seed-7 training and complete validation replication",
+      "repository_sha256": "abbad95e2b86cc43402b56f3ce354289f6b344021aa394295311eb763c55bc5d",
+      "original_sha256": "979aaaaedc980a5029a99ee8e6d1d912d68e882a808d6d4fccb0921bdbaf882b",
+      "source_template": "retinavessel-ai-v4-seed7.ipynb",
+      "source_template_sha256": "134af54e32f1c67061f927cfc5a0306e17afcdd936239492151b351405956370",
+      "code_cells": 10,
+      "executed_code_cells": 10,
+      "error_outputs": 0
+    }
+  ],
+  "planned_notebooks": [
+    {
+      "path": "retinavessel-ai-v5-seed123.ipynb",
+      "role": "predeclared seed-123 training and validation replication",
+      "sha256": "c000c8c5a5e5bc0d79d23d25b8a440b8b8802d7fb3c4e246cde3a57f7c2de93b",
+      "status": "not_executed"
+    }
+  ],
+  "external_artifacts": [
+    {
+      "run_id": "seed42-training-v2",
+      "filename": "retinavessel_v2_seed42.zip",
+      "bytes": 36378705,
+      "sha256": "84ff679c012290dfb4f6346ab0d6eb2e189e68049d5e5433beba584f71cbe096",
+      "zip_integrity_verified": true,
+      "training_code_commit": "0c40aa665be3a247372062eaa46a33f578cf7b0f",
+      "seed": 42,
+      "official_test_evaluated": false
+    },
+    {
+      "run_id": "seed42-validation-v3",
+      "filename": "retinavessel_v3_validation_seed42.zip",
+      "bytes": 270446,
+      "sha256": "6f60f9eb3718e42ade78af49b4af633ecebff292afb10a617e5b6b56c3232f5d",
+      "zip_integrity_verified": true,
+      "evaluation_code_commit": "f17833fdb25c9232e1df9cd60b0b5eb3ede048d6",
+      "seed": 42,
+      "validation_image_count": 89,
+      "condition_count": 9,
+      "per_image_row_count": 2403,
+      "official_test_evaluated": false
+    },
+    {
+      "run_id": "seed7-replication-v4",
+      "filename": "retinavessel_v4_seed7.zip",
+      "bytes": 36536469,
+      "sha256": "09f98d836edd3848c80750c08c12444e9187fe6efab9ad7461436563cabf61ea",
+      "zip_integrity_verified": true,
+      "training_code_commit": "224e115808a3330ee17516f0348ccd8fda9aa5ba",
+      "seed": 7,
+      "validation_image_count": 89,
+      "condition_count": 9,
+      "per_image_row_count": 2403,
+      "official_test_evaluated": false
+    }
+  ],
+  "checkpoints": [
+    {"run_id": "seed42-training-v2", "model": "unet", "sha256": "202a2d387663fd6e2e8db3463e79ce64fb72e278bc6b4655475a893b3f3162ad"},
+    {"run_id": "seed42-training-v2", "model": "lite_unet", "sha256": "e1022147a4ed0f44c918ee694c53628687a3dbe687370ff79d30cf6908f63abb"},
+    {"run_id": "seed42-training-v2", "model": "lite_robust", "sha256": "b48e12f1e17c7434f14b2adf51b2aac976b7a07b007049d7463eac34fa567395"},
+    {"run_id": "seed7-replication-v4", "model": "unet", "sha256": "69e0e8ddd2175cbc6f0e52a6275cc1fbe38f2f47ac9728b258f2192243485c74"},
+    {"run_id": "seed7-replication-v4", "model": "lite_unet", "sha256": "915061edaf8dcebc2050bceb0a34b4bbbb36203a026c1102f7d3aad7b538b644"},
+    {"run_id": "seed7-replication-v4", "model": "lite_robust", "sha256": "8cbc8bd7410b51248b071b4f6ff0b9c72317c94385f7627ec2e3a229eae2c8ed"}
+  ],
+  "tracked_materials": [
+    {"path": "provenance/runs/seed42/training_manifest.json", "sha256": "67bcd0067c0f1552a871014728ece6f242bd0420759ccb38fda6dedd09cb31a4"},
+    {"path": "provenance/runs/seed42/training_summary.csv", "sha256": "6bd9ace6f793560997bd3752628b812a479309c5f4a74559cd13dbe506a59c3e"},
+    {"path": "provenance/runs/seed42/validation_summary.csv", "sha256": "3d90c33924cbab5e6598d600aac9c862907a698bca353d213fd4046cc3d7ec1d"},
+    {"path": "provenance/runs/seed42/paired_degradation_drops.csv", "sha256": "0e9a88abbfce2512daa7cc7e122049070d05dafdd8473a00dd21f65f605b2d30"},
+    {"path": "provenance/runs/seed7/training_manifest.json", "sha256": "db38ca3a58283397245b5479f8d97bf2b01e7639713670c442d5d8fe5ad59d85"},
+    {"path": "provenance/runs/seed7/training_summary.csv", "sha256": "18a0796e0d395a8178dd4720af26212fe631a2d5d830488aed6492baa59f48d2"},
+    {"path": "provenance/runs/seed7/validation_summary.csv", "sha256": "f1d65e9dcbb53e5a99484ff78bb1e34d745501fea78c1c51bf50cedb6c886f8b"},
+    {"path": "provenance/runs/seed7/paired_degradation_drops.csv", "sha256": "cbf8115188f000ab5e27f5f961fe8fde1f28dabbe77d3049e1d741cf8f070aad"}
+  ]
+}

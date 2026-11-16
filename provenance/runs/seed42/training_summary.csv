@@ -1,0 +1,4 @@
+experiment,model,degradation_training,parameters,completed_epochs,best_epoch,best_validation_dice,wall_minutes_this_notebook
+lite_robust_seed42_es,lite_unet,True,236156,15,10,0.8452173053731213,79.9
+lite_unet_seed42_es,lite_unet,False,236156,13,8,0.8261553981737626,68.18
+unet_seed42_es,unet,False,1964097,20,15,0.8234686000292697,127.41

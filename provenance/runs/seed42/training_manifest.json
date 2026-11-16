@@ -1,0 +1,44 @@
+{
+  "training_code_commit": "0c40aa665be3a247372062eaa46a33f578cf7b0f",
+  "dataset_mount": "/kaggle/input/datasets/simonkosgei/fives-retinal-dataset",
+  "resolved_fives_root": "/kaggle/input/datasets/simonkosgei/fives-retinal-dataset/FIVES A Fundus Image Dataset for AI-based Vessel Segmentation",
+  "split_manifest_sha256": "aee8809176974d6f880013d85a3ab4a405a43121d0cf31363fcc47dd75256c87",
+  "pytorch_version": "2.11.0+cu130",
+  "cuda_device": "Tesla T4",
+  "maximum_epochs": 30,
+  "early_stopping_patience": 5,
+  "seed": 42,
+  "official_test_evaluated": false,
+  "results": [
+    {
+      "experiment": "lite_robust_seed42_es",
+      "model": "lite_unet",
+      "degradation_training": true,
+      "parameters": 236156,
+      "completed_epochs": 15,
+      "best_epoch": 10,
+      "best_validation_dice": 0.8452173054,
+      "wall_minutes_this_notebook": 79.9
+    },
+    {
+      "experiment": "lite_unet_seed42_es",
+      "model": "lite_unet",
+      "degradation_training": false,
+      "parameters": 236156,
+      "completed_epochs": 13,
+      "best_epoch": 8,
+      "best_validation_dice": 0.8261553982,
+      "wall_minutes_this_notebook": 68.18
+    },
+    {
+      "experiment": "unet_seed42_es",
+      "model": "unet",
+      "degradation_training": false,
+      "parameters": 1964097,
+      "completed_epochs": 20,
+      "best_epoch": 15,
+      "best_validation_dice": 0.8234686,
+      "wall_minutes_this_notebook": 127.41
+    }
+  ]
+}

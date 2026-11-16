@@ -86,16 +86,28 @@ Tests (no medical dataset needed):
 PYTHONPATH=src pytest -q
 ```
 
-The commit-pinned `retinavessel-ai-v3.ipynb` consumes the verified v2
-checkpoint archive and runs the complete validation-only robustness, topology
-and efficiency matrix on Kaggle. It intentionally contains no official-test
-evaluation cell.
+The executed, commit-pinned
+[`retinavessel-ai-v3.ipynb`](provenance/notebooks/executed/retinavessel-ai-v3.ipynb)
+consumes the verified v2 checkpoint archive and records the complete
+validation-only robustness, topology and efficiency matrix from Kaggle. It
+contains no official-test evaluation cell.
 
 The commit-pinned `retinavessel-ai-v4-seed7.ipynb` and
 `retinavessel-ai-v5-seed123.ipynb` execute the two predeclared replication
 seeds under the frozen protocol in `docs/v4_multiseed_protocol.md`. Each fits
 all three model configurations and exports the complete validation-only
 matrix; neither notebook opens official-test pixels.
+
+### Research provenance
+
+Completed Kaggle notebooks, compact run manifests, validation summaries,
+checkpoint identities and external-archive checksums are maintained under
+[`provenance/`](provenance/README.md). Large checkpoint ZIPs are intentionally
+kept outside Git and can be verified against the manifest with:
+
+```bash
+python provenance/verify.py --artifacts-dir PATH/TO/DOWNLOADS --require-artifacts
+```
 
 ### Current capabilities
 
