@@ -3,8 +3,8 @@
 Status updated 2026-11-16: **official FIVES archive verified and audited; data
 policy and development split frozen; three controlled seed-42 Kaggle
 validation runs completed under the declared early-stopping policy; official
-test remains untouched. The commit-pinned v3 validation-only evaluation
-notebook is ready; its full Kaggle run remains pending.**
+test remains untouched. The full seed-42 v3 validation-only matrix is verified;
+additional-seed replication is the active stage.**
 
 ## Data audit gate
 
@@ -34,8 +34,9 @@ notebook is ready; its full Kaggle run remains pending.**
 - [ ] Implement dataset-specific external importers, independent observer ground-truth policy.
 - [ ] Evaluate at native resolution without external-set fine-tuning.
 - [x] Implement and predeclare v3 thin-vessel, topology, severity and efficiency measures.
-- [ ] Execute the full three-model v3 validation-only evaluation on Kaggle.
-- [ ] Add confidence intervals and multi-seed experimental replication.
+- [x] Execute and independently verify the full three-model v3 validation matrix.
+- [x] Add image-level bootstrap confidence intervals.
+- [ ] Complete predeclared training seeds 7 and 123 and aggregate across seeds.
 - [x] Build a separate multi-model FastAPI inference backend with bounded uploads.
 - [x] Connect the leading development candidate to the backend with verified provenance.
 - [ ] Connect the frozen winning checkpoint and build the upload/overlay frontend.
@@ -72,6 +73,32 @@ degradation-stratified, topology and efficiency evaluation remain pending.
 Its SHA-addressed checkpoint was promoted to the local inference registry with
 the Kaggle run provenance attached. Model binaries and the local registry are
 deliberately excluded from Git.
+
+## Robustness, topology and efficiency results (v3)
+
+The complete v3 artifact contains 2,403 records: three seed-42 checkpoints,
+nine conditions and all 89 frozen validation images. Its archive SHA-256 is
+`6f60f9eb3718e42ade78af49b4af633ecebff292afb10a617e5b6b56c3232f5d`.
+All checkpoint/split hashes and saved summaries were independently verified;
+`official_test_evaluated` is false.
+
+| Model | Clean Dice (95% image-bootstrap CI) | Clean clDice | Thin recall | Median T4 latency | Peak allocated CUDA memory |
+|---|---:|---:|---:|---:|---:|
+| Standard U-Net | 0.823469 (0.795601–0.848908) | 0.832439 | 0.215944 | 815 ms | 81.1 MiB |
+| Lite U-Net | 0.826155 (0.800501–0.848157) | 0.837423 | 0.309949 | 446 ms | 92.9 MiB |
+| Lite U-Net + degradation | **0.845217 (0.818727–0.865821)** | **0.857174** | **0.348004** | 449 ms | 92.9 MiB |
+
+The robust lite model exceeded the clean lite model by a paired mean Dice of
+0.019062 on clean images (95% image-bootstrap CI 0.013615–0.024418). Its
+advantage increased to 0.097333 under severe noise. Severe-condition Dice was
+0.758819 for contrast, 0.767207 for illumination and 0.768065 for noise.
+
+The lightweight architecture used 87.98% fewer trainable parameters and was
+about 1.8 times faster than the standard U-Net on this T4 run. It did not use
+less peak allocated CUDA memory, so no memory-efficiency advantage is claimed.
+Absolute thin-centerline recall remained low for every model, and the mild
+effect of the predeclared blur radii is retained without post-result severity
+changes. These are single-seed findings until v4 replication is complete.
 
 ## Compute readiness
 
