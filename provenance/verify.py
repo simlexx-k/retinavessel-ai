@@ -55,6 +55,10 @@ def main() -> int:
             source = ROOT / record["source_template"]
             if not source.is_file() or digest(source) != record["source_template_sha256"]:
                 failures.append(f"source template mismatch: {record['source_template']}")
+        if "original_path" in record:
+            original = ROOT / record["original_path"]
+            if not original.is_file() or digest(original) != record["original_sha256"]:
+                failures.append(f"original notebook mismatch: {record['original_path']}")
         print(f"OK notebook {record['path']} ({executed}/{len(code)} cells executed)")
 
     for record in manifest["planned_notebooks"]:

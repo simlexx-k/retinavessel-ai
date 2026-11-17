@@ -3,6 +3,11 @@
 Status: **predeclared after the seed-42 v3 results and before training either
 additional seed.** The official FIVES test partition remains sealed.
 
+Completion note (2026-11-17): all three predeclared seeds and validation
+matrices completed successfully. The aggregation and configuration decision
+are recorded in `provenance/aggregation/` and `docs/frozen_model_policy.md`.
+The official test remained sealed throughout aggregation.
+
 ## Fixed replication design
 
 - Training-randomness seeds: **7, 42 and 123**. Seed 42 is the completed v2

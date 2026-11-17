@@ -83,7 +83,7 @@ If automatic RAR extraction fails, use 7-Zip to unpack the manually downloaded o
 Tests (no medical dataset needed):
 
 ```bash
-PYTHONPATH=src pytest -q
+PYTHONPATH=src:backend pytest -q
 ```
 
 The executed, commit-pinned
@@ -93,10 +93,12 @@ validation-only robustness, topology and efficiency matrix from Kaggle. It
 contains no official-test evaluation cell.
 
 The commit-pinned `retinavessel-ai-v4-seed7.ipynb` and
-`retinavessel-ai-v5-seed123.ipynb` execute the two predeclared replication
-seeds under the frozen protocol in `docs/v4_multiseed_protocol.md`. Each fits
-all three model configurations and exports the complete validation-only
-matrix; neither notebook opens official-test pixels.
+`retinavessel-ai-v5-seed123.ipynb` completed the two predeclared replication
+seeds under the frozen protocol in `docs/v4_multiseed_protocol.md`. The
+three-seed aggregation selects the degradation-trained Lite U-Net
+configuration without selecting an individual seed. See the
+[`frozen model policy`](docs/frozen_model_policy.md) for the evidence and the
+predeclared one-time official-test procedure.
 
 ### Research provenance
 
@@ -122,6 +124,8 @@ python provenance/verify.py --artifacts-dir PATH/TO/DOWNLOADS --require-artifact
 - Per-image and micro-averaged field-of-view restricted Dice, IoU, sensitivity, specificity, precision; optional clDice.
 - Deterministic validation-only quality stress tests, thin-centerline recall,
   skeleton fragmentation, paired degradation drops and image-level bootstrap intervals.
+- Reproducible three-seed aggregation with a frozen architecture, augmentation
+  decision and final-test policy; official FIVES test remains sealed.
 - Model output with overlay visualization and JSON/CSV experiment records.
 - Separate multi-model FastAPI inference backend with bounded image uploads.
 

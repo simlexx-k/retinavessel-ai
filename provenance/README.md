@@ -15,10 +15,12 @@ SHA-256 and expected contents in `manifest.json`.
 - `artifact-checksums.sha256`: conventional checksums for the external ZIPs.
 - `verify.py`: verifies tracked notebooks and, optionally, downloaded ZIPs.
 
-Clean notebooks intended for future execution remain at the repository root.
-At present those are `retinavessel-ai-v4-seed7.ipynb` (the preserved seed-7
-template) and `retinavessel-ai-v5-seed123.ipynb` (the next run). Completed
-V1–V4 notebooks live only under `notebooks/executed/`.
+Notebook templates normally remain at the repository root, but Kaggle's GitHub
+save operation replaced the root V5 file with the byte-exact executed download.
+The manifest records that file as `original_path`; normalized archival copies
+of completed V1–V5 notebooks live under `notebooks/executed/`. The deterministic
+three-seed aggregation inputs, outputs and script are under `aggregation/` and
+`aggregate.py`.
 
 ## Verify
 

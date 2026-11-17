@@ -1,0 +1,4 @@
+experiment,model,degradation_training,seed,parameters,completed_epochs,best_epoch,best_validation_dice,checkpoint_sha256,wall_minutes_this_notebook
+lite_robust_seed123_es,lite_unet,True,123,236156,22,17,0.8492980633930658,041f0b42954da36b02812cd97738d33ee14554364cc90a5502d96550c4c4e131,123.1
+unet_seed123_es,unet,False,123,1964097,30,25,0.8179977162864658,8dd71c3539ddf082b6b14c0c690321036a98557b531acf4120aa5b3e75090b51,201.01
+lite_unet_seed123_es,lite_unet,False,123,236156,12,7,0.8156699747654266,88b511112058089106c5ededa509dbc4528354b581d7177dc37e48b8f023881a,72.61

@@ -1,0 +1,188 @@
+{
+  "schema_version": 1,
+  "seeds": [
+    7,
+    42,
+    123
+  ],
+  "official_test_evaluated": false,
+  "method": {
+    "clean_metrics": "Across-seed arithmetic mean and sample standard deviation.",
+    "robustness_effect": "Within each seed and degradation, robust-lite minus clean-lite mean metric; then across-seed arithmetic mean and sample standard deviation. Because both models use the same 89 images, the difference of means equals the mean paired difference."
+  },
+  "source_validation_summaries": [
+    {
+      "path": "provenance/runs/seed7/validation_summary.csv",
+      "sha256": "f1d65e9dcbb53e5a99484ff78bb1e34d745501fea78c1c51bf50cedb6c886f8b"
+    },
+    {
+      "path": "provenance/runs/seed42/validation_summary.csv",
+      "sha256": "3d90c33924cbab5e6598d600aac9c862907a698bca353d213fd4046cc3d7ec1d"
+    },
+    {
+      "path": "provenance/runs/seed123/validation_summary.csv",
+      "sha256": "1c4d9c62efd09aec3387f69afb6a03f95ef1a2a377601230b75d8ddbba58b290"
+    }
+  ],
+  "clean_configuration_summary": [
+    {
+      "configuration": "unet",
+      "seed_count": 3,
+      "parameters": 1964097,
+      "parameter_bytes": 7856388,
+      "mean_dice_across_seed_mean": 0.8124044221050133,
+      "mean_dice_across_seed_sample_sd": 0.014682853092848523,
+      "mean_cldice_across_seed_mean": 0.8198878834345222,
+      "mean_cldice_across_seed_sample_sd": 0.01729885721027725,
+      "mean_thin_centerline_recall_across_seed_mean": 0.20212292497069118,
+      "mean_thin_centerline_recall_across_seed_sample_sd": 0.02118467422816345,
+      "mean_latency_ms_across_seed_mean": 838.8370991011324,
+      "mean_latency_ms_across_seed_sample_sd": 21.850393294750525,
+      "maximum_peak_accelerator_bytes_across_seed_mean": 85031936.0,
+      "maximum_peak_accelerator_bytes_across_seed_sample_sd": 0.0
+    },
+    {
+      "configuration": "lite_unet",
+      "seed_count": 3,
+      "parameters": 236156,
+      "parameter_bytes": 944624,
+      "mean_dice_across_seed_mean": 0.8234906797480293,
+      "mean_dice_across_seed_sample_sd": 0.006886521185909663,
+      "mean_cldice_across_seed_mean": 0.8336615830269999,
+      "mean_cldice_across_seed_sample_sd": 0.009427967815116659,
+      "mean_thin_centerline_recall_across_seed_mean": 0.2579077145542472,
+      "mean_thin_centerline_recall_across_seed_sample_sd": 0.05130453118458093,
+      "mean_latency_ms_across_seed_mean": 453.4903032433917,
+      "mean_latency_ms_across_seed_sample_sd": 4.151701597293987,
+      "maximum_peak_accelerator_bytes_across_seed_mean": 97457664.0,
+      "maximum_peak_accelerator_bytes_across_seed_sample_sd": 0.0
+    },
+    {
+      "configuration": "lite_robust",
+      "seed_count": 3,
+      "parameters": 236156,
+      "parameter_bytes": 944624,
+      "mean_dice_across_seed_mean": 0.8466228599142087,
+      "mean_dice_across_seed_sample_sd": 0.0023177905046013526,
+      "mean_cldice_across_seed_mean": 0.8571723294678723,
+      "mean_cldice_across_seed_sample_sd": 0.004021601794200906,
+      "mean_thin_centerline_recall_across_seed_mean": 0.35462186218037356,
+      "mean_thin_centerline_recall_across_seed_sample_sd": 0.0072940919184807254,
+      "mean_latency_ms_across_seed_mean": 453.4270013894453,
+      "mean_latency_ms_across_seed_sample_sd": 3.8187069532375926,
+      "maximum_peak_accelerator_bytes_across_seed_mean": 97457664.0,
+      "maximum_peak_accelerator_bytes_across_seed_sample_sd": 0.0
+    }
+  ],
+  "robust_minus_clean_summary": [
+    {
+      "condition": "blur_mild",
+      "category": "blur",
+      "severity": "mild",
+      "seed_count": 3,
+      "dice_difference_across_seed_mean": 0.023307660169360107,
+      "dice_difference_across_seed_sample_sd": 0.009245910606346996,
+      "cldice_difference_across_seed_mean": 0.02364478479439532,
+      "cldice_difference_across_seed_sample_sd": 0.013819154075427796,
+      "thin_centerline_recall_difference_across_seed_mean": 0.09759120545642624,
+      "thin_centerline_recall_difference_across_seed_sample_sd": 0.059055100337128255
+    },
+    {
+      "condition": "blur_severe",
+      "category": "blur",
+      "severity": "severe",
+      "seed_count": 3,
+      "dice_difference_across_seed_mean": 0.025592254589591874,
+      "dice_difference_across_seed_sample_sd": 0.009347228343006721,
+      "cldice_difference_across_seed_mean": 0.027088840645972685,
+      "cldice_difference_across_seed_sample_sd": 0.016110058590715376,
+      "thin_centerline_recall_difference_across_seed_mean": 0.09314663621746132,
+      "thin_centerline_recall_difference_across_seed_sample_sd": 0.0610840743256681
+    },
+    {
+      "condition": "contrast_mild",
+      "category": "contrast",
+      "severity": "mild",
+      "seed_count": 3,
+      "dice_difference_across_seed_mean": 0.02850957217434798,
+      "dice_difference_across_seed_sample_sd": 0.009249110166149179,
+      "cldice_difference_across_seed_mean": 0.03323521265646604,
+      "cldice_difference_across_seed_sample_sd": 0.014773308079888043,
+      "thin_centerline_recall_difference_across_seed_mean": 0.0828548813425443,
+      "thin_centerline_recall_difference_across_seed_sample_sd": 0.0595921895449697
+    },
+    {
+      "condition": "contrast_severe",
+      "category": "contrast",
+      "severity": "severe",
+      "seed_count": 3,
+      "dice_difference_across_seed_mean": 0.042206893389036305,
+      "dice_difference_across_seed_sample_sd": 0.01085949810366857,
+      "cldice_difference_across_seed_mean": 0.060896303401086725,
+      "cldice_difference_across_seed_sample_sd": 0.010711886226369389,
+      "thin_centerline_recall_difference_across_seed_mean": 0.05165778709037592,
+      "thin_centerline_recall_difference_across_seed_sample_sd": 0.054514635351548185
+    },
+    {
+      "condition": "illumination_mild",
+      "category": "illumination",
+      "severity": "mild",
+      "seed_count": 3,
+      "dice_difference_across_seed_mean": 0.02155266554860502,
+      "dice_difference_across_seed_sample_sd": 0.01678971163915696,
+      "cldice_difference_across_seed_mean": 0.023595607252804185,
+      "cldice_difference_across_seed_sample_sd": 0.027068334633686655,
+      "thin_centerline_recall_difference_across_seed_mean": 0.06296709656689893,
+      "thin_centerline_recall_difference_across_seed_sample_sd": 0.036533216601810345
+    },
+    {
+      "condition": "illumination_severe",
+      "category": "illumination",
+      "severity": "severe",
+      "seed_count": 3,
+      "dice_difference_across_seed_mean": 0.021209085077891394,
+      "dice_difference_across_seed_sample_sd": 0.031107694507454806,
+      "cldice_difference_across_seed_mean": 0.022487593254332878,
+      "cldice_difference_across_seed_sample_sd": 0.050377842026887054,
+      "thin_centerline_recall_difference_across_seed_mean": 0.020786205482477612,
+      "thin_centerline_recall_difference_across_seed_sample_sd": 0.020284399570823397
+    },
+    {
+      "condition": "noise_mild",
+      "category": "noise",
+      "severity": "mild",
+      "seed_count": 3,
+      "dice_difference_across_seed_mean": 0.03233944725036764,
+      "dice_difference_across_seed_sample_sd": 0.001575831434722991,
+      "cldice_difference_across_seed_mean": 0.0375333234702091,
+      "cldice_difference_across_seed_sample_sd": 0.006906623612992112,
+      "thin_centerline_recall_difference_across_seed_mean": 0.0843356692774763,
+      "thin_centerline_recall_difference_across_seed_sample_sd": 0.04835189226621462
+    },
+    {
+      "condition": "noise_severe",
+      "category": "noise",
+      "severity": "severe",
+      "seed_count": 3,
+      "dice_difference_across_seed_mean": 0.07215308750409133,
+      "dice_difference_across_seed_sample_sd": 0.03681861495987336,
+      "cldice_difference_across_seed_mean": 0.08458677341528624,
+      "cldice_difference_across_seed_sample_sd": 0.04314659271183466,
+      "thin_centerline_recall_difference_across_seed_mean": 0.04709978945186019,
+      "thin_centerline_recall_difference_across_seed_sample_sd": 0.04677908271597971
+    }
+  ],
+  "decision": {
+    "selected_configuration": "lite_robust",
+    "selected_architecture": "lite_unet",
+    "training_degradation": true,
+    "individual_seed_selected": false,
+    "robust_wins_every_seed": {
+      "mean_dice": true,
+      "mean_cldice": true,
+      "mean_thin_centerline_recall": true
+    },
+    "parameter_reduction_vs_unet_fraction": 0.8797635758315399,
+    "rationale": "The degradation-trained lightweight U-Net has the highest clean Dice, clDice and thin-centerline recall in every predeclared seed while using fewer parameters."
+  }
+}
