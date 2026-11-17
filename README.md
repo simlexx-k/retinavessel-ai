@@ -100,6 +100,11 @@ configuration without selecting an individual seed. See the
 [`frozen model policy`](docs/frozen_model_policy.md) for the evidence and the
 predeclared one-time official-test procedure.
 
+The commit-pinned `retinavessel-ai-v6-official-test.ipynb` implements that
+procedure and is ready for Kaggle but has not yet been executed. See the
+[`Kaggle V6 run guide`](docs/kaggle_official_test_run.md) before crossing the
+official-test boundary.
+
 ### Research provenance
 
 Completed Kaggle notebooks, compact run manifests, validation summaries,

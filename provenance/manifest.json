@@ -63,7 +63,15 @@
       "error_outputs": 0
     }
   ],
-  "planned_notebooks": [],
+  "planned_notebooks": [
+    {
+      "path": "retinavessel-ai-v6-official-test.ipynb",
+      "role": "one-time nine-checkpoint official FIVES test evaluation",
+      "sha256": "4bbc974fc22a6d638bae9296c5ea7c38ad24104c60d11a424eff3c3d2aae5ebd",
+      "pinned_code_commit": "99920ac4cdddf039e0b70b3d7477f361084a45fb",
+      "official_test_evaluated": false
+    }
+  ],
   "external_artifacts": [
     {
       "run_id": "seed42-training-v2",

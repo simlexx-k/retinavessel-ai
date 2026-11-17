@@ -13,7 +13,13 @@ def test_all_predeclared_runs_are_recorded_without_official_test_access():
     manifest = json.loads((PROVENANCE / "manifest.json").read_text())
 
     assert manifest["dataset"]["official_test_evaluated"] is False
-    assert manifest["planned_notebooks"] == []
+    assert manifest["planned_notebooks"] == [{
+        "path": "retinavessel-ai-v6-official-test.ipynb",
+        "role": "one-time nine-checkpoint official FIVES test evaluation",
+        "sha256": "4bbc974fc22a6d638bae9296c5ea7c38ad24104c60d11a424eff3c3d2aae5ebd",
+        "pinned_code_commit": "99920ac4cdddf039e0b70b3d7477f361084a45fb",
+        "official_test_evaluated": False,
+    }]
     assert {run["seed"] for run in manifest["external_artifacts"] if "seed" in run} == {7, 42, 123}
     assert all(run["official_test_evaluated"] is False for run in manifest["external_artifacts"])
     assert len(manifest["checkpoints"]) == 9

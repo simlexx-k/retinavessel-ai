@@ -1,10 +1,10 @@
 # Experiment notebook / decisions log
 
-Status updated 2026-11-16: **official FIVES archive verified and audited; data
-policy and development split frozen; three controlled seed-42 Kaggle
-validation runs completed under the declared early-stopping policy; official
-test remains untouched. The full seed-42 v3 validation-only matrix is verified;
-additional-seed replication is the active stage.**
+Status updated 2026-11-17: **the three predeclared seeds and complete
+validation-only matrices are verified and aggregated. The degradation-trained
+Lite U-Net configuration and final analysis policy are frozen. The official
+FIVES test remains untouched; the commit-pinned V6 one-time evaluation is the
+active stage.**
 
 ## Data audit gate
 
@@ -25,7 +25,7 @@ additional-seed replication is the active stage.**
 - [x] Compare preliminary fixed-budget validation trends.
 - [x] Repeat under the declared 30-epoch maximum / patience-5 policy.
 - [ ] Run full untouched primary test once, with declared threshold and FOV method.
-- [ ] Include clDice and parameter count in summary tables.
+- [x] Include clDice and parameter count in summary tables.
 - [ ] Save examples of genuine successes and failures.
 
 ## Generalization & extension gate
@@ -36,7 +36,7 @@ additional-seed replication is the active stage.**
 - [x] Implement and predeclare v3 thin-vessel, topology, severity and efficiency measures.
 - [x] Execute and independently verify the full three-model v3 validation matrix.
 - [x] Add image-level bootstrap confidence intervals.
-- [ ] Complete predeclared training seeds 7 and 123 and aggregate across seeds.
+- [x] Complete predeclared training seeds 7 and 123 and aggregate across seeds.
 - [x] Build a separate multi-model FastAPI inference backend with bounded uploads.
 - [x] Build a separate Next.js upload/overlay frontend with a server-side API proxy.
 - [x] Connect the leading development candidate to the backend with verified provenance.

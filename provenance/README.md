@@ -20,7 +20,8 @@ save operation replaced the root V5 file with the byte-exact executed download.
 The manifest records that file as `original_path`; normalized archival copies
 of completed V1–V5 notebooks live under `notebooks/executed/`. The deterministic
 three-seed aggregation inputs, outputs and script are under `aggregation/` and
-`aggregate.py`.
+`aggregate.py`. The root V6 notebook is the planned, not-yet-executed official
+test stage; its checksum is recorded under `planned_notebooks` in the manifest.
 
 ## Verify
 
