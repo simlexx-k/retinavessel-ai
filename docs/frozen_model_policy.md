@@ -62,6 +62,9 @@ The official 200-image FIVES test partition remains sealed at this freeze
 point. It will be evaluated once in a separately versioned, commit-pinned
 script or notebook under the following immutable policy:
 
+The machine-readable version of this policy, including every archive and
+checkpoint hash, is [`fives_official_test_plan.json`](fives_official_test_plan.json).
+
 1. Evaluate all nine frozen best checkpoints: three configurations × seeds 7,
    42 and 123. Their exact SHA-256 values are in `provenance/manifest.json`.
 2. Use native-resolution tiled inference with tile 384, overlap 64 and the

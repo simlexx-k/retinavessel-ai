@@ -126,6 +126,8 @@ python provenance/verify.py --artifacts-dir PATH/TO/DOWNLOADS --require-artifact
   skeleton fragmentation, paired degradation drops and image-level bootstrap intervals.
 - Reproducible three-seed aggregation with a frozen architecture, augmentation
   decision and final-test policy; official FIVES test remains sealed.
+- Plan-locked, resumable nine-checkpoint official-test runner that refuses
+  changed hashes, inference settings, seed membership or incomplete test data.
 - Model output with overlay visualization and JSON/CSV experiment records.
 - Separate multi-model FastAPI inference backend with bounded image uploads.
 

@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "frozen_on": "2026-11-17",
+  "dataset": "FIVES original official test partition",
+  "official_test_image_count": 200,
+  "configurations": ["unet", "lite_unet", "lite_robust"],
+  "seeds": [7, 42, 123],
+  "selected_configuration": "lite_robust",
+  "individual_seed_selected": false,
+  "inference": {
+    "tile": 384,
+    "overlap": 64,
+    "threshold": 0.5,
+    "warmup_runs": 2
+  },
+  "uncertainty": {
+    "bootstrap_repetitions": 2000,
+    "bootstrap_seed": 2026,
+    "unit": "image"
+  },
+  "topology": {
+    "enabled": true,
+    "thin_centerline_max_radius_pixels": 2.0,
+    "prediction_tolerance_pixels": 1
+  },
+  "archives": [
+    {
+      "seed": 42,
+      "filename": "retinavessel_v2_seed42.zip",
+      "bytes": 36378705,
+      "sha256": "84ff679c012290dfb4f6346ab0d6eb2e189e68049d5e5433beba584f71cbe096"
+    },
+    {
+      "seed": 7,
+      "filename": "retinavessel_v4_seed7.zip",
+      "bytes": 36536469,
+      "sha256": "09f98d836edd3848c80750c08c12444e9187fe6efab9ad7461436563cabf61ea"
+    },
+    {
+      "seed": 123,
+      "filename": "retinavessel_v5_seed123.zip",
+      "bytes": 36682015,
+      "sha256": "03d15de13e2e964558b7d9b56be4999959e09f345a7fe7bdc303d0960ba2ca5f"
+    }
+  ],
+  "checkpoints": [
+    {
+      "model_id": "unet_seed7",
+      "configuration": "unet",
+      "seed": 7,
+      "architecture": "unet",
+      "parameters": 1964097,
+      "relative_path": "seed7/outputs/unet_seed7_es/best.pt",
+      "sha256": "69e0e8ddd2175cbc6f0e52a6275cc1fbe38f2f47ac9728b258f2192243485c74"
+    },
+    {
+      "model_id": "unet_seed42",
+      "configuration": "unet",
+      "seed": 42,
+      "architecture": "unet",
+      "parameters": 1964097,
+      "relative_path": "seed42/outputs/unet_seed42_es/best.pt",
+      "sha256": "202a2d387663fd6e2e8db3463e79ce64fb72e278bc6b4655475a893b3f3162ad"
+    },
+    {
+      "model_id": "unet_seed123",
+      "configuration": "unet",
+      "seed": 123,
+      "architecture": "unet",
+      "parameters": 1964097,
+      "relative_path": "seed123/outputs/unet_seed123_es/best.pt",
+      "sha256": "8dd71c3539ddf082b6b14c0c690321036a98557b531acf4120aa5b3e75090b51"
+    },
+    {
+      "model_id": "lite_unet_seed7",
+      "configuration": "lite_unet",
+      "seed": 7,
+      "architecture": "lite_unet",
+      "parameters": 236156,
+      "relative_path": "seed7/outputs/lite_unet_seed7_es/best.pt",
+      "sha256": "915061edaf8dcebc2050bceb0a34b4bbbb36203a026c1102f7d3aad7b538b644"
+    },
+    {
+      "model_id": "lite_unet_seed42",
+      "configuration": "lite_unet",
+      "seed": 42,
+      "architecture": "lite_unet",
+      "parameters": 236156,
+      "relative_path": "seed42/outputs/lite_unet_seed42_es/best.pt",
+      "sha256": "e1022147a4ed0f44c918ee694c53628687a3dbe687370ff79d30cf6908f63abb"
+    },
+    {
+      "model_id": "lite_unet_seed123",
+      "configuration": "lite_unet",
+      "seed": 123,
+      "architecture": "lite_unet",
+      "parameters": 236156,
+      "relative_path": "seed123/outputs/lite_unet_seed123_es/best.pt",
+      "sha256": "88b511112058089106c5ededa509dbc4528354b581d7177dc37e48b8f023881a"
+    },
+    {
+      "model_id": "lite_robust_seed7",
+      "configuration": "lite_robust",
+      "seed": 7,
+      "architecture": "lite_unet",
+      "parameters": 236156,
+      "relative_path": "seed7/outputs/lite_robust_seed7_es/best.pt",
+      "sha256": "8cbc8bd7410b51248b071b4f6ff0b9c72317c94385f7627ec2e3a229eae2c8ed"
+    },
+    {
+      "model_id": "lite_robust_seed42",
+      "configuration": "lite_robust",
+      "seed": 42,
+      "architecture": "lite_unet",
+      "parameters": 236156,
+      "relative_path": "seed42/outputs/lite_robust_seed42_es/best.pt",
+      "sha256": "b48e12f1e17c7434f14b2adf51b2aac976b7a07b007049d7463eac34fa567395"
+    },
+    {
+      "model_id": "lite_robust_seed123",
+      "configuration": "lite_robust",
+      "seed": 123,
+      "architecture": "lite_unet",
+      "parameters": 236156,
+      "relative_path": "seed123/outputs/lite_robust_seed123_es/best.pt",
+      "sha256": "041f0b42954da36b02812cd97738d33ee14554364cc90a5502d96550c4c4e131"
+    }
+  ]
+}
